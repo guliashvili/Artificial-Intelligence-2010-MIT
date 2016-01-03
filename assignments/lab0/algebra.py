@@ -174,5 +174,43 @@ def do_multiply(expr1, expr2):
     '*' will not help you.
     """
     # Replace this with your solution.
-    raise NotImplementedError
+    is1Sum = isinstance(expr1,Sum)
+    is2Sum = isinstance(expr2,Sum)
+    
+    if is2Sum:
+        is2Sum = is1Sum
+        is1Sum = True
+        tmp = expr2
+        expr2 = expr1
+        expr1 = tmp
+
+    if is1Sum: expr1 = expr1.simplify();
+    if is2Sum: expr2 = expr2.simplify();
+    
+    if not is1Sum and not is2Sum:
+        return Product(list(expr1) + list(expr2))
+    elif is2Sum:
+        ret = Sum()
+        for elem1 in list(expr1):
+            for elem2 in list(expr2):
+                ret.append(Product([elem1, elem2]))
+        return ret.simplify()
+    else:
+        ret = Sum()
+        for elem in list(expr1):
+            ret.append(Product(list(expr2) + [elem,]))
+        return ret.simplify()
+
+
+
+
+
+
+
+
+
+
+
+
+
 
